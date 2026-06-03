@@ -4,6 +4,8 @@ import cors from "cors";
 import session from "express-session";
 import passport   from "passport";
 import "./db.js";
+import "./passport-config.js";
+import authRouter from "./routes/auth.js";
 
 // init express
 const app = new express();
@@ -44,7 +46,7 @@ app.get('/api/health', (req, res) => {
 });
 
 // auth routes
-// app.use('/api', authRouter);
+app.use('/api', authRouter);
 
 // network routes
 // app.use('/api', networkRouter);
