@@ -1,7 +1,9 @@
 // imports
 import express from "express";
 import cors from "cors";
-import './db.js';
+import session from "express-session";
+import passport   from "passport";
+import "./db.js";
 
 // init express
 const app = new express();
@@ -17,9 +19,47 @@ app.use(cors({
   credentials: true,
 }));
 
-// health check endpoint
+// session middleware
+app.use(session({
+  secret: 'valdermoor-secret-key', // in a real app this goes in .env
+  resave: false,
+  saveUninitialized: false,
+  cookie: {
+    httpOnly: true,
+    secure: false,
+    sameSite: 'lax',
+    maxAge: 1000 * 60 * 60 * 24,
+  }
+}));
+
+// passport middleware
+app.use(passport.initialize());
+app.use(passport.session());
+
+// ROUTES
+
+// health check
 app.get('/api/health', (req, res) => {
-  res.json({ status: "ok" });
+  res.json({ status: 'ok', user: req.user || null });
+});
+
+// auth routes
+// app.use('/api', authRouter);
+
+// network routes
+// app.use('/api', networkRouter);
+
+// game routes
+// app.use('/api', gameRouter);
+
+// GLOBAL ERROR HANDLER
+
+// catches any error passed via next(err) in route handlers
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(err.status || 500).json({
+    error: err.message || 'Internal sever error!'
+  });
 });
 
 // activate the server

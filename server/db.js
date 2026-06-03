@@ -4,8 +4,10 @@ import { promisify } from 'node:util';
 const db = new sqlite3.Database('./valdermoor.db', err => {
     if (err)
         console.error('Failed to connect to database:', err);
-    else
+    else {
         console.log('Connected to Valdermoor database.');
+        db.run('PRAGMA foreign_keys = ON');
+    }
 });
 
 // Promisified helpers so all queries use async/await
