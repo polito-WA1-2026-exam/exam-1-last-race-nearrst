@@ -6,6 +6,7 @@ import passport   from "passport";
 import "./db.js";
 import "./passport-config.js";
 import authRouter from "./routes/auth.js";
+import networkRouter from "./routes/network.js";
 
 // init express
 const app = new express();
@@ -49,7 +50,7 @@ app.get('/api/health', (req, res) => {
 app.use('/api', authRouter);
 
 // network routes
-// app.use('/api', networkRouter);
+app.use('/api', networkRouter);
 
 // game routes
 // app.use('/api', gameRouter);
