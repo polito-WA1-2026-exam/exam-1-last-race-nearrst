@@ -50,6 +50,32 @@ async function init() {
     }
 
     console.log('Users created: aragorn / gandalf / frodo');
+
+    // seed completed games for aragorn and gandalf
+
+    await insert(`
+        INSERT INTO games (user_id, start_station, dest_station, status, score)
+        VALUES (?, ?, ?, 'completed', ?)`,
+        [1, 1, 11, 47]
+    );
+    await insert(`
+        INSERT INTO games (user_id, start_station, dest_station, status, score)
+        VALUES (?, ?, ?, 'completed', ?)`,
+        [1, 6, 4, 23]
+    );
+
+    await insert(`
+        INSERT INTO games (user_id, start_station, dest_station, status, score)
+        VALUES (?, ?, ?, 'completed', ?)`,
+        [2, 3, 8, 31]
+    );
+    await insert(`
+        INSERT INTO games (user_id, start_station, dest_station, status, score)
+        VALUES (?, ?, ?, 'completed', ?)`,
+        [2, 7, 1, 18]
+    );
+
+    console.log('Seeded game history for aragorn and gandalf.');
     db.close();
 }
 

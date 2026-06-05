@@ -184,3 +184,26 @@ export function getLeaderboard() {
         ORDER BY best_score DESC
     `);
 }
+
+// Returns all lines that contain BOTH station A and station B as adjacent stops
+// If this returns empty, the segment A→B doesn't exist on any line
+export function getSharedLines(stationAId, stationBId) {
+  return db.allAsync(`
+    SELECT ls1.line_id
+    FROM line_stations ls1
+    JOIN line_stations ls2
+      ON  ls1.line_id  = ls2.line_id
+      AND ls2.station_id = ?
+      AND ABS(ls1.position - ls2.position) = 1
+    WHERE ls1.station_id = ?
+  `, [stationBId, stationAId]);
+}
+
+// returns all line IDs that serve a given station
+export function getLinesForStation(stationId) {
+    return db.allAsync(`
+        SELECT line_id
+        FROM line_stations
+        WHERE station_id = ?`,
+        [stationId]);
+}
