@@ -21,6 +21,21 @@ export async function validateRoute(route, startId, destId) {
     const firstStationLines = await getLinesForStation(route[0]);
     let currentLineIds = new Set(firstStationLines.map(r => r.line_id));
 
+    // added rule in final version: no segment may appear more than once
+    const usedSegments = new Set();
+
+    for (let i = 0; i < route.length - 1; i++) {
+        const a = route[i];
+        const b   = route[i + 1];
+        // normalize direction so (A,B) and (B,A) produce the same key
+        const key = a < b ? `${a}-${b}` : `${b}-${a}`;
+
+        if (usedSegments.has(key)) {
+            return { valid: false, reason: `Segment between station ${a} and station ${b} is used more than once.` };
+        }
+        usedSegments.add(key);
+    }
+
     for (let i = 0; i < route.length - 1; i++) {
         const fromId = route[i];
         const toId = route[i + 1];

@@ -56,7 +56,7 @@ async function init() {
     await insert(`
         INSERT INTO games (user_id, start_station, dest_station, status, score)
         VALUES (?, ?, ?, 'completed', ?)`,
-        [1, 1, 11, 47]
+        [1, 1, 14, 47]
     );
     await insert(`
         INSERT INTO games (user_id, start_station, dest_station, status, score)

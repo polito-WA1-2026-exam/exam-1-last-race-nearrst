@@ -15,10 +15,12 @@ INSERT INTO stations (name) VALUES
     ('Thornwick'),
     ('Mirefall'),
     ('Stonemarsh'),
+    ('Grimholt'),
     ('Cresthold'),
     ('Ravenspire'),
-    ('Goldengate'),
-    ('Hollowfen');
+    ('Dawnspire'),
+    ('Hollowfen'),
+    ('Goldengate');
 
 -- Crimson Line: Irongate(1) ── Ashenveil(2) ── The Crypt(3) ── Duskwall(4) ── Embervane(5)
 INSERT INTO line_stations (line_id, station_id, position) VALUES
@@ -28,29 +30,29 @@ INSERT INTO line_stations (line_id, station_id, position) VALUES
     (1, 4, 4),
     (1, 5, 5);
 
--- Silver Line: Thornwick(6) ── Ashenveil(2) ── Mirefall(7) ── Stonemarsh(8) ── Embervane(5)
+-- Silver Line: Thornwick(6) ── Ashenveil(2) ── Mirefall(7) ── Stonemarsh(8) ── Grimholt(9)
 INSERT INTO line_stations (line_id, station_id, position) VALUES
     (2, 6, 1),
     (2, 2, 2),
     (2, 7, 3),
     (2, 8, 4),
-    (2, 5, 5);
+    (2, 9, 5);
 
--- Golden Line: Mirefall(7) ── Cresthold(9) ── The Crypt(3) ── Ravenspire(10) ── Goldengate(11)
+-- Golden Line: Mirefall(7) ── Cresthold(10) ── The Crypt(3) ── Ravenspire(11) ── Dawnspire(12)
 INSERT INTO line_stations (line_id, station_id, position) VALUES
     (3, 7, 1),
-    (3, 9, 2),
+    (3, 10, 2),
     (3, 3, 3),
-    (3, 10, 4),
-    (3, 11, 5);
+    (3, 11, 4),
+    (3, 12, 5);
 
--- Obsidian Line: Stonemarsh(8) ── Ravenspire(10) ── Duskwall(4) ── Hollowfen(12) ── Goldengate(11)
+-- Obsidian Line: Stonemarsh(8) ── Ravenspire(11) ── Duskwall(4) ── Hollowfen(13) ── Goldengate(14)
 INSERT INTO line_stations (line_id, station_id, position) VALUES
     (4, 8, 1),
-    (4, 10, 2),
+    (4, 11, 2),
     (4, 4, 3),
-    (4, 12, 4),
-    (4, 11, 5);
+    (4, 13, 4),
+    (4, 14, 5);
 
 -- events
 INSERT INTO events (description, effect) VALUES
