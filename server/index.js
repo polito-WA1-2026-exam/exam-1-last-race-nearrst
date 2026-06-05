@@ -2,11 +2,12 @@
 import express from "express";
 import cors from "cors";
 import session from "express-session";
-import passport   from "passport";
+import passport from "passport";
 import "./db.js";
 import "./passport-config.js";
 import authRouter from "./routes/auth.js";
 import networkRouter from "./routes/network.js";
+import gameRouter from "./routes/game.js";
 
 // init express
 const app = new express();
@@ -53,7 +54,7 @@ app.use('/api', authRouter);
 app.use('/api', networkRouter);
 
 // game routes
-// app.use('/api', gameRouter);
+app.use('/api', gameRouter);
 
 // GLOBAL ERROR HANDLER
 

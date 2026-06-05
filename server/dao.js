@@ -78,13 +78,21 @@ export function getUserById(id) {
 
 // GAMES
 
-// create a new game record in 'planning' status
+// create a new game
 export function createGame(userId, startStationId, destStationId) {
-    return db.runAsync(`
-        INSERT INTO games (user_id, start_station, dest_station, status)
-        VALUES (?, ?, ?, 'planning')`,
-        [userId, startStationId, destStationId]
-    );
+    return new Promise((resolve, reject) => {
+        db.run(`
+            INSERT INTO games (user_id, start_station, dest_station, status)
+            VALUES(?, ?, ?, 'planning')`,
+            [userId, startStationId, destStationId],
+            function(err) {
+                if(err)
+                    reject(err);
+                else
+                    resolve(this.lastID);
+            }
+        );
+    });
 }
 
 // get a single game by ID
@@ -144,6 +152,20 @@ export function getGameSegments(gameId) {
         ORDER BY gs.step_order`,
         [gameId]
     );
+}
+
+// returns the full adjacency list of the network
+// used by the BFS algorithm to traverse the network graph
+export function getAdjacencyList() {
+    return db.allAsync(`
+        SELECT
+            ls1.station_id AS station_id,
+            ls2.station_id AS neighbour_id
+        FROM line_stations ls1
+        JOIN line_stations ls2
+        ON  ls1.line_id  = ls2.line_id
+        AND ABS(ls1.position - ls2.position) = 1
+  `);
 }
 
 // LEADERBOARD
