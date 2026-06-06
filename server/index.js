@@ -8,6 +8,7 @@ import "./passport-config.js";
 import authRouter from "./routes/auth.js";
 import networkRouter from "./routes/network.js";
 import gameRouter from "./routes/game.js";
+import leaderboardRouter from "./routes/leaderboard.js";
 
 // init express
 const app = new express();
@@ -55,6 +56,9 @@ app.use('/api', networkRouter);
 
 // game routes
 app.use('/api', gameRouter);
+
+// leaderboard routes
+app.use('/api', leaderboardRouter);
 
 // GLOBAL ERROR HANDLER
 

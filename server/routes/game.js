@@ -162,4 +162,36 @@ router.post('/games/:id/route', requireAuth, async (req, res, next) => {
     }
 });
 
+// GET /api/games/:id/segments
+// returns the execution steps for a completed game
+router.get('/games/:id/segments', requireAuth, async (req, res, next) => {
+    try {
+        const gameId = parseInt(req.params.id);
+
+        if (isNaN(gameId)) {
+            return res.status(400).json({ error: 'Invalid game ID.' });
+        }
+
+        const game = await getGameById(gameId);
+
+        if (!game) {
+            return res.status(404).json({ error: 'Game not found.' });
+        }
+
+        if (game.user_id !== req.user.id) {
+            return res.status(403).json({ error: 'Forbidden.' });
+        }
+
+        if (game.status !== 'completed') {
+            return res.status(409).json({ error: 'Game has not been executed yet.' });
+        }
+
+        const segments = await getGameSegments(gameId);
+        res.json({ segments });
+
+    } catch (err) {
+        next(err);
+    }
+});
+
 export default router;
