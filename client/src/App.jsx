@@ -4,11 +4,9 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import NavBar from "./components/NavBar";
 import Home from "./components/Home";
 import Login from "./components/Login";
+import GamePage from "./pages/GamePage";
 
 // placeholder pages
-function GamePage() {
-  return <div className="container">Game coming soon...</div>;
-}
 function LeaderboardPage() {
   return <div className="container">Leaderboard coming soon...</div>;
 }
