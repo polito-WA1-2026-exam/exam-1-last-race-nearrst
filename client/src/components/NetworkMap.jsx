@@ -1,7 +1,7 @@
 import { STATION_POSITIONS } from "../config/networkLayout.js";
 
 // NetworkMap renders an SVG of the Valdermoor underground network
-function NetworkMap({ networkData, showLines = true, selectedIds = new Set() }) {
+function NetworkMap({ networkData, showLines = true, selectedIds = new Set(), svgMaxWidth = 760 }) {
 
     if (!networkData) {
         return (
@@ -24,7 +24,15 @@ function NetworkMap({ networkData, showLines = true, selectedIds = new Set() }) 
 
     return (
         <div>
-            <svg viewBox="0 0 760 480" style={{ width: '100%', maxWidth: '760px', display: 'block', margin: '0 auto' }} >
+            <svg
+                viewBox="0 0 760 520"
+                style={{
+                    width: '100%',
+                    maxWidth: `${svgMaxWidth}px`,
+                    display: 'block',
+                    margin: '0 auto'
+                }}
+            >
                 {/* LINE LAYER */}
                 {showLines && lines.map(line => {
                     const sorted = [...line.stations].sort((a, b) => a.position - b.position);
@@ -89,26 +97,6 @@ function NetworkMap({ networkData, showLines = true, selectedIds = new Set() }) 
                     );
                 })}
             </svg>
-
-            {/* LINE LEGEND — shown only in Setup phase */}
-            {showLines && (
-                <div className="d-flex flex-wrap gap-3 justify-content-center mt-2">
-                    {lines.map(line => (
-                        <div key={line.id} className="d-flex align-items-center gap-2">
-                            <div
-                                style={{
-                                    width: 32, height: 6,
-                                    backgroundColor: line.color,
-                                    borderRadius: 3,
-                                }}
-                            />
-                            <span style={{ fontSize: 13, color: '#ecf0f1' }}>
-                                {line.name}
-                            </span>
-                        </div>
-                    ))}
-                </div>
-            )}
         </div>
     );
 }

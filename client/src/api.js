@@ -15,6 +15,9 @@ async function request(method, path, body) {
 
     const res = await fetch(`${BASE}${path}`, options);
 
+    if (res.status === 422)
+        return res.json();
+
     if (!res.ok) {
         const err = await res.json().catch(() => ({ error: 'Unknown error' }));
         throw new Error(err.error || 'Request failed');
