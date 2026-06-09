@@ -15,6 +15,7 @@ function PlanningPhase({ gameId, startStation, destStation, onRouteSubmitted }) 
     const [error, setError] = useState('');
 
     const routeRef = useRef([]);
+    const segmentSizes = useRef([]);
     const hasSubmitted = useRef(false);
 
     useEffect(() => {
@@ -67,21 +68,45 @@ function PlanningPhase({ gameId, startStation, destStation, onRouteSubmitted }) 
     // clicking a segment pill adds it to the route
     const handleSegmentClick = (seg) => {
         setRoute(prev => {
+            // block already used segments
+            const segKey = seg.from_id < seg.to_id ?
+            `${seg.from_id}-${seg.to_id}` :
+            `${seg.to_id}-${seg.from_id}`
+            const usedKeys = new Set();
+            for (let i = 0; i < prev.length -1; i++) {
+                const a = prev[i], b = prev[i + 1];
+                usedKeys.add(a < b ? `${a}-${b}` : `${b}-${a}`);
+            }
+            if (usedKeys.has(segKey))
+                return prev;
+
             let next;
+
             if (prev.length === 0) {
-                // first click
-                next = [seg.from_id, seg.to_id];
+                // first segment
+                if (seg.from_id === startStation.id) {
+                    next = [seg.from_id, seg.to_id];
+                } else if (seg.to_id === startStation.id) {
+                    next = [seg.to_id, seg.from_id];
+                } else {
+                    next = [seg.from_id, seg.to_id];
+                }
             } else {
-                const last = prev[prev.length - 1];
-                if (seg.from_id === last) {
+                // subsequent segments
+                const lastId = prev[prev.length - 1];
+
+                if (seg.from_id === lastId) {
                     next = [...prev, seg.to_id];
-                } else if (seg.to_id === last) {
+                } else if (seg.to_id === lastId) {
                     next = [...prev, seg.from_id];
                 } else {
-                    // segment doesn't connect to last station
                     next = [...prev, seg.from_id, seg.to_id];
                 }
             }
+
+            const added = next.length - prev.length;
+            segmentSizes.current = [...segmentSizes.current, added];
+            
             routeRef.current = next;
             return next;
         });
@@ -89,9 +114,17 @@ function PlanningPhase({ gameId, startStation, destStation, onRouteSubmitted }) 
 
     const handleUndo = () => {
         setRoute(prev => {
-        const next = prev.length <= 1 ? [] : prev.slice(0, -1);
-        routeRef.current = next;
-        return next;
+            if (prev.length === 0)
+                return prev;
+
+            const sizes = segmentSizes.current;
+            const lastSize = sizes[sizes.length - 1] || 1;
+            const next = prev.slice(0, prev.length - lastSize);
+
+            // remove the last recorded size
+            segmentSizes.current = sizes.slice(0, -1);
+            routeRef.current = next;
+            return next;
         });
     };
 
@@ -138,7 +171,7 @@ function PlanningPhase({ gameId, startStation, destStation, onRouteSubmitted }) 
                         networkData={networkData}
                         showLines={false}
                         selectedIds={selectedIds}
-                        svgMaxWidth={480}
+                        svgMaxWidth={600}
                     />
 
                     <div className="text-center mt-2">

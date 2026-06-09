@@ -2,6 +2,8 @@ import { useState } from "react";
 import { Container } from "react-bootstrap";
 import SetupPhase from "./SetupPhase.jsx";
 import PlanningPhase from "./PlanningPhase.jsx";
+import ExecutionPhase from "./ExecutionPhase.jsx";
+import ResultPhase from "./ResultPhase.jsx";
 
 function GamePage() {
     const [phase, setPhase] = useState('setup');
@@ -22,6 +24,18 @@ function GamePage() {
         setPhase('execution');
     };
 
+    const handleExecutionFinished = () => {
+        setPhase('result');
+    };
+
+    const handlePlayAgain = () => {
+        setGameId(null);
+        setStartStation(null);
+        setDestStation(null);
+        setRouteResult(null);
+        setPhase('setup');
+    };
+
     return (
         <Container className="py-3">
             {phase === 'setup' && (
@@ -38,12 +52,21 @@ function GamePage() {
             )}
 
             {phase === 'execution' && (
-                <div className="text-center text-warning p-5">
-                    <h4>Execution phase...</h4>
-                    <pre className="text-start text-muted mt-3" style={{ fontSize: 12 }}>
-                        {JSON.stringify(routeResult, null, 2)}
-                    </pre>
-                </div>
+                <ExecutionPhase
+                    result={routeResult}
+                    startStation={startStation}
+                    destStation={destStation}
+                    onFinished={handleExecutionFinished}
+                />
+            )}
+
+            {phase === 'result' && (
+                <ResultPhase
+                    result={routeResult}
+                    startStation={startStation}
+                    destStation={destStation}
+                    onPlayAgain={handlePlayAgain}
+                />
             )}
         </Container>
     );

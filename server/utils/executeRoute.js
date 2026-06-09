@@ -1,4 +1,4 @@
-import { getAllEvents, insertGameSegment, updateGame } from "../dao.js";
+import { getAllEvents, getAllStations, insertGameSegment, updateGame } from "../dao.js";
 
 // executes a validated route
 // applies random events to each segment
@@ -6,6 +6,11 @@ export async function executeRoute(gameId, route) {
     const events = await getAllEvents();
     let coins = 20;
     const steps = [];
+    const allStations = await getAllStations();
+    const stationMap = {};
+    for (const s of allStations)
+        stationMap[s.id] = s.name;
+
 
     for (let i = 0; i < route.length - 1; i++) {
         const fromId = route[i];
@@ -22,8 +27,10 @@ export async function executeRoute(gameId, route) {
 
         steps.push({
             step: stepOrder,
-            fromId,
-            toId,
+            fromId: fromId,
+            fromName: stationMap[fromId] || `Station ${fromId}`,
+            toId: toId,
+            toName: stationMap[toId] || `Station ${toId}`,
             event: { description: event.description, effect: event.effect },
             coinsAfter: coins,
         });

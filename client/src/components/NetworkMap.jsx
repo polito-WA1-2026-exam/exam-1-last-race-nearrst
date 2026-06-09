@@ -69,7 +69,7 @@ function NetworkMap({ networkData, showLines = true, selectedIds = new Set(), sv
 
                     return(
                         <g key={station.id}>
-                            {isInterchange && (
+                            {isInterchange && showLines && (
                                 <circle
                                     cx={pos.x} cy={pos.y} r={14}
                                     fill="none" stroke="#ffffff"
@@ -78,7 +78,7 @@ function NetworkMap({ networkData, showLines = true, selectedIds = new Set(), sv
                             )}
                             <circle
                                 cx={pos.x} cy={pos.y}
-                                r={isSelected ? 12 : 8}
+                                r={isSelected ? 10 : 8}
                                 fill={isSelected ? '#f39c12' : (showLines ? '#ffffff' : '#95a5a6')}
                                 stroke={isSelected ? '#e67e22' : '#2c3e50'}
                                 strokeWidth={2}
@@ -86,7 +86,7 @@ function NetworkMap({ networkData, showLines = true, selectedIds = new Set(), sv
                             <text
                                 x={pos.x} y={pos.y + 24}
                                 textAnchor="middle"
-                                fontSize={11}
+                                fontSize={showLines ? 11 : 12}
                                 fill={isSelected ? '#f39c12' : '#ecf0f1'}
                                 fontFamily="sans-serif"
                                 fontWeight={isSelected ? 'bold' : 'normal'}
