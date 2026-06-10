@@ -84,20 +84,16 @@ function SetupPhase({ onGameReady }) {
                 <hr style={{ borderColor: '#2c3e50', margin: '4px 0' }} />
 
                 <Button
-                    variant="warning"
+                    variant="outline-warning"
                     onClick={handleReady}
                     disabled={starting || !networkData}
                 >
                     {starting ? (
                         <><Spinner size="sm" className="me-2" />Starting...</>
                     ) : (
-                        <>Ready to Play!</>
+                        <>Ready to Play</>
                     )}
                 </Button>
-
-                <div style={{ fontSize: 11, color: '#7f8c8d' }}>
-                    Once you click Ready, line colours disappear and your 90-second timer begins.
-                </div>
             </Col>
         </Row>        
     </Container>

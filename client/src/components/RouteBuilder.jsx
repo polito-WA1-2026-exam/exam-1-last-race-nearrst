@@ -102,9 +102,6 @@ function RouteBuilder({
             </div>
 
             {/* SEGMENT PILLS */}
-            <div style={{ fontSize: 12, color: '#95a5a6', marginBottom: 2 }}>
-                All segments: Click any to add to your route
-            </div>
 
             <div style={{
                 maxHeight: '340px',

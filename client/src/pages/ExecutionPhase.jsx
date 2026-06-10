@@ -33,7 +33,7 @@ function ExecutionPhase({ result, startStation, destStation, onFinished }) {
                         </Card.Body>
                     </Card>
 
-                    <Button variant="warning" size="lg" onClick={onFinished}>
+                    <Button variant="outline-warning" size="lg" onClick={onFinished}>
                         See Results
                     </Button>
                 </div>
@@ -161,7 +161,7 @@ function ExecutionPhase({ result, startStation, destStation, onFinished }) {
             {/* Next / Finish button */}
             <div className="text-center">
                 <Button
-                    variant="warning"
+                    variant="outline-warning"
                     size="lg"
                     onClick={() => {
                         if (isLast) {

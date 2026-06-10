@@ -176,7 +176,7 @@ function PlanningPhase({ gameId, startStation, destStation, onRouteSubmitted }) 
 
                     <div className="text-center mt-2">
                         <Button
-                            variant="warning"
+                            variant="outline-warning"
                             size="lg"
                             onClick={() => handleSubmit(routeRef.current)}
                             disabled={submitting || timerExpired}

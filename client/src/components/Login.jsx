@@ -70,7 +70,7 @@ function Login() {
                         </Form.Group>
 
                         <Button
-                            variant="warning"
+                            variant="outline-warning"
                             type="submit"
                             className="w-100"
                             disabled={loading}

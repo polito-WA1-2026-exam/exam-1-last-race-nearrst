@@ -5,8 +5,8 @@ import NavBar from "./components/NavBar";
 import Home from "./components/Home";
 import Login from "./components/Login";
 import GamePage from "./pages/GamePage";
+import Leaderboard from "./pages/Leaderboard";
 
-// placeholder pages
 function LeaderboardPage() {
   return <div className="container">Leaderboard coming soon...</div>;
 }
@@ -23,7 +23,7 @@ function App() {
             <ProtectedRoute><GamePage /></ProtectedRoute>
           } />
           <Route path="/leaderboard" element={
-            <ProtectedRoute><LeaderboardPage /></ProtectedRoute>
+            <ProtectedRoute><Leaderboard /></ProtectedRoute>
           } />
         </Routes>
       </AuthProvider>

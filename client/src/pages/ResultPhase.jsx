@@ -74,7 +74,7 @@ function ResultPhase({ result, startStation, destStation, onPlayAgain }) {
 
             {/* Action buttons */}
             <div className="d-flex justify-content-center gap-3">
-                <Button variant="warning" size="lg" onClick={onPlayAgain}>
+                <Button variant="outline-warning" size="lg" onClick={onPlayAgain}>
                     Play Again
                 </Button>
                 <Button
