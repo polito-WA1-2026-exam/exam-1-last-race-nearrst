@@ -1,7 +1,16 @@
 import { STATION_POSITIONS } from "../config/networkLayout.js";
 
 // NetworkMap renders an SVG of the Valdermoor underground network
-function NetworkMap({ networkData, showLines = true, selectedIds = new Set(), svgMaxWidth = 760 }) {
+function NetworkMap({
+    networkData,
+    showLines = true,
+    selectedIds = new Set(),
+    svgMaxWidth = 760,
+    routeStations = [],
+    completedSegments = [],
+    currentSegment = null,
+    neutralLines = false
+}) {
 
     if (!networkData) {
         return (
@@ -45,12 +54,71 @@ function NetworkMap({ networkData, showLines = true, selectedIds = new Set(), sv
                         <polyline
                             key={line.id}
                             points={points}
-                            stroke={line.color}
+                            stroke={neutralLines ? '#2c3e50' : line.color}
                             strokeWidth={6}
                             fill="none"
                             strokeLinecap="round"
                             strokeLinejoin="round"
                             opacity={0.8}
+                            opacity={neutralLines ? 1 : 0.8}
+                        />
+                    );
+                })}
+
+                {/* EXECUTION COMPLETED SEGMENTS LAYER */}
+                {completedSegments.map(([fromId, toId], i) => {
+                    const fromPos = STATION_POSITIONS[fromId];
+                    const toPos = STATION_POSITIONS[toId];
+                    if (!fromPos || !toPos)
+                        return null;
+                    return (
+                        <line
+                            key={`completed-${i}`}
+                            x1={fromPos.x} y1={fromPos.y}
+                            x2={toPos.x}   y2={toPos.y}
+                            stroke="#f39c12"
+                            strokeWidth={5}
+                            strokeLinecap="round"
+                            opacity={0.6}
+                        />
+                    );
+                })}
+
+                {/* EXECUTION CURRENT SEGMENT LAYER */}
+                {currentSegment && (() => {
+                    const fromPos = STATION_POSITIONS[currentSegment[0]];
+                    const toPos = STATION_POSITIONS[currentSegment[1]];
+                    if (!fromPos || !toPos)
+                        return null;
+                    return (
+                        <line
+                            x1={fromPos.x}
+                            y1={fromPos.y}
+                            x2={toPos.x}
+                            y2={toPos.y}
+                            stroke="#ffffff"
+                            strokeWidth={7}
+                            strokeLinecap="round"
+                            opacity={0.9}
+                        />
+                    );
+                })()}
+
+                {/* EXECUTION STATION HIGHLIGHTS */}
+                {currentSegment && currentSegment.map((stationId, i) => {
+                    const pos = STATION_POSITIONS[stationId];
+                    if (!pos)
+                        return null;
+                    return (
+                        <circle
+                            key={`highlight-${i}`}
+                            cx={pos.x}
+                            cy={pos.y}
+                            r={14}
+                            fill="none"
+                            stroke="#ffffff"
+                            strokeWidth={3}
+                            opacity={0.9}
                         />
                     );
                 })}

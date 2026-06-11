@@ -11,11 +11,13 @@ function GamePage() {
     const [startStation, setStartStation] = useState(null);
     const [destStation, setDestStation] = useState(null);
     const [routeResult,  setRouteResult] = useState(null);
+    const [networkData, setNetworkData] = useState(null);
 
-    const handleGameReady = (id, start, dest) => {
+    const handleGameReady = (id, start, dest, network) => {
         setGameId(id);
         setStartStation(start);
         setDestStation(dest);
+        setNetworkData(network);
         setPhase('planning');
     };
 
@@ -33,6 +35,7 @@ function GamePage() {
         setStartStation(null);
         setDestStation(null);
         setRouteResult(null);
+        setNetworkData(null);
         setPhase('setup');
     };
 
@@ -54,6 +57,7 @@ function GamePage() {
             {phase === 'execution' && (
                 <ExecutionPhase
                     result={routeResult}
+                    networkData={networkData}
                     startStation={startStation}
                     destStation={destStation}
                     onFinished={handleExecutionFinished}

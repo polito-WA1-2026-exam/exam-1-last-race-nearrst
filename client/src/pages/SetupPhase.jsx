@@ -20,7 +20,7 @@ function SetupPhase({ onGameReady }) {
     setError('');
     try {
         const game = await createGame();
-        onGameReady(game.gameId, game.startStation, game.destStation);
+        onGameReady(game.gameId, game.startStation, game.destStation, networkData);
     } catch (err) {
         setError('Failed to start the game. Please try again.');
         setStarting(false);
